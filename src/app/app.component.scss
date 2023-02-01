@@ -1,0 +1,6 @@
+.centered {
+  position: fixed;
+  top: 50%;
+  /* bring your own prefixes */
+  transform: translate(0, -50%);
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Curtain",
+  "version": "1.0",
+  "description": "Curtain extension",
+  "manifest_version": 3,
+  "action": {
+    "default_icon": {
+      "16": "assets/favicon-16x16.png",
+      "32": "assets/favicon-32x32.png"
+    },
+    "default_popup": "index.html"
+  },
+  "permissions": [
+      "activeTab",
+      "webNavigation",
+      "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}

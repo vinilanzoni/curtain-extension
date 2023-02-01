@@ -1,0 +1,29 @@
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/dist/css/bootstrap.min';
+@import url('https://fonts.googleapis.com/css2?family=Expletus+Sans:ital,wght@1,500&family=Roboto&display=swap');
+
+html,
+body {
+  min-width: 300px;
+  min-height: 300px;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-attachment: fixed;
+  background-size: cover;
+  background-image: url("assets/background.png");
+  background-position: center;
+  background-color: black;
+}
+
+.full {
+  top: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  z-index: -1;
+  opacity: 0.5;
+}
