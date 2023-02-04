@@ -1,12 +1,19 @@
 <div class="centered w-100">
   <div class="row m-3 mx-5">
-    <div class="col text-center">
-      <img src="assets/maca-music-logo.png" width="100px">
+    <div class="col text-center" *ngIf="!isFileSelected">
+      <label class="btn btn-primary w-100" for="fileInput">
+        Escolha um arquivo...
+      </label>
+      <input type="file" accept="image/png" id="fileInput" (change)="fileSelected($event)" hidden>
+    </div>
+    <div class="col text-center" *ngIf="isFileSelected">
+      <button type="button" class="btn btn-primary w-100" *ngIf="isUploading" disabled>Carregando...</button>
+      <button type="button" class="btn btn-primary w-100" *ngIf="!isUploading" disabled>Arquivo carregado!</button>
     </div>
   </div>
   <div class="row m-3 mx-5">
     <div class="col text-center">
-      <button type="button" class="btn btn-primary w-100" (click)="showCover()">Mostrar</button>
+      <button type="button" class="btn btn-primary w-100" [ngClass]="{'disabled': isUploading}" (click)="showCover()">Mostrar</button>
     </div>
   </div>
   <div class="row m-3 mx-5">

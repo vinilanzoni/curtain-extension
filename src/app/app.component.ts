@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  constructor(private service: AppService) { }
+
+  isFileSelected = false;
+  isUploading = false
+
+  public fileSelected(event: any) {
+    this.isFileSelected = true;
+    this.isUploading = true;
+    let archive = event.target.files[0];
+    this.service.getUploadURL().subscribe((data: any) => {
+      this.service.doUpload(data, archive).subscribe(() => {
+        this.isUploading = false;
+      });
+    });
+  }
+
   public showCover() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       chrome.scripting.executeScript({
@@ -39,7 +57,7 @@ const showCover = () => {
     return;
   }
   const img = document.createElement('img');
-  img.src = "https://public-lanzoni.s3.amazonaws.com/images/chrome-extension.jpg";
+  img.src = "https://public-lanzoni.s3.amazonaws.com/images/chrome-extension.png";
   img.style.maxWidth = "100%"
   img.style.height = "100%"
   img.style.verticalAlign = "middle";
