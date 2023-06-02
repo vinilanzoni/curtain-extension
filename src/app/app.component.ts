@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { AppService } from './app.service';
+import { ImageService } from './image.service';
+import { StorageService } from './storage.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -8,27 +10,36 @@ import { AppService } from './app.service';
 })
 export class AppComponent {
 
-  constructor(private service: AppService) { }
+  constructor(private service: ImageService, private storageService: StorageService) {
+    const storageValue = storageService.getField('imgUrl');
+    this.imgUrl = storageValue ? storageValue : '';
+   }
 
   isFileSelected = false;
   isUploading = false
+  imgUrl: string;
 
   public fileSelected(event: any) {
     this.isFileSelected = true;
     this.isUploading = true;
     let archive = event.target.files[0];
-    this.service.getUploadURL().subscribe((data: any) => {
-      this.service.doUpload(data, archive).subscribe(() => {
-        this.isUploading = false;
-      });
+    this.service.uploadFile(archive).subscribe((data: any) => {
+      this.isUploading = false;
+      this.imgUrl = data;
+      this.storageService.setField('imgUrl', data, environment.expirationInSeconds);
     });
+  }
+
+  public lockShowButton() {
+    return this.isUploading || this.imgUrl === "";
   }
 
   public showCover() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
       chrome.scripting.executeScript({
         target: { tabId: tabs[0].id! },
-        func: showCover
+        func: show,
+        args: [this.imgUrl],
       });
     });
   }
@@ -51,16 +62,17 @@ const deleteCover = () => {
   }
 }
 
-const showCover = () => {
+const show = (imageUrl: string) => {
   const div = document.getElementById("curtainExtDiv");
   if (div) {
     return;
   }
   const img = document.createElement('img');
-  img.src = "https://public-lanzoni.s3.amazonaws.com/images/chrome-extension.png";
+  img.src = imageUrl;
   img.style.maxWidth = "100%"
   img.style.height = "100%"
   img.style.verticalAlign = "middle";
+  img.loading = "lazy";
 
   const helper = document.createElement("span");
   helper.style.display = "inline-block";

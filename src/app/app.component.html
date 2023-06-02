@@ -13,7 +13,7 @@
   </div>
   <div class="row m-3 mx-5">
     <div class="col text-center">
-      <button type="button" class="btn btn-primary w-100" [ngClass]="{'disabled': isUploading}" (click)="showCover()">Mostrar</button>
+      <button type="button" class="btn btn-primary w-100" [ngClass]="{'disabled': lockShowButton()}" (click)="showCover()">Mostrar</button>
     </div>
   </div>
   <div class="row m-3 mx-5">
