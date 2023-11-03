@@ -72,6 +72,9 @@ const show = (imageUrl: string) => {
   img.style.maxWidth = "100%"
   img.style.height = "100%"
   img.style.verticalAlign = "middle";
+  img.style.position = "absolute";
+  img.style.top = "0";
+  img.style.left = "0";
   img.loading = "lazy";
 
   const helper = document.createElement("span");

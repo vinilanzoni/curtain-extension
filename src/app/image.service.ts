@@ -19,7 +19,7 @@ export class ImageService {
     // Store form name as "file" with file data
     formData.append('image', file, file.name);
     const httpOptions = {
-      params: new HttpParams().set('key', environment.imgbbApiKey).set('expiration', environment.expirationInSeconds.toString()),
+      params: new HttpParams().set('key', environment.apiKey).set('expiration', environment.expirationInSeconds.toString()),
     }
     // Make http post request over api
     return this.http.post(this.defaultUrl, formData, httpOptions).pipe(map((resp: any) => {
